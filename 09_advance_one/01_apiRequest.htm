@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API</title>
+</head>
+
+<body style="background-color: #212121; color: #fff;">
+    <h3 style=" padding: 10px 10px 0;">XMLHttpRequest</h3>
+    <table border="1" cellpadding="5" cellspacing="0" style="margin-bottom: 5px;">
+        <thead>
+            <tr>
+                <th>State</th>
+                <th>Value</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>UNSENT</td>
+                <td>0</td>
+                <td>Client has been created. `open()` not called yet.</td>
+            </tr>
+            <tr>
+                <td>OPENED</td>
+                <td>1</td>
+                <td>`open()` has been called.</td>
+            </tr>
+            <tr>
+                <td>HEADERS_RECEIVED</td>
+                <td>2</td>
+                <td>`send()` has been called, and headers and status are available.</td>
+            </tr>
+            <tr>
+                <td>LOADING</td>
+                <td>3</td>
+                <td>Downloading; `responseText` holds partial data.</td>
+            </tr>
+            <tr>
+                <td>DONE</td>
+                <td>4</td>
+                <td>The operation is complete.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- assingment   -->
+    <div id="photo"></div>
+    <button id="details">Show my details</button>
+
+
+</body>
+
+<script>
+
+
+
+
+
+
+
+    //Xml request = Ajax request : we frist create a object
+    const requestUrl = 'https://api.github.com/users/hiteshchoudhary'
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', requestUrl);
+    xhr.onreadystatechange = function () {
+        console.log(xhr.readyState);
+        if (xhr.readyState === 4) {
+            const data = JSON.parse(this.responseText);
+            // console.log(typeof data); //at most time, when response comes from url it is of string type.
+            // console.log(data.followers);           
+            // console.log(data.avatar_url);  
+
+            document.querySelector('#details').addEventListener('click', function () {
+
+                this.style.display = 'none'//hides the button after clicking on it.
+
+                const newElement = document.createElement('div');
+                newElement.setAttribute('id', 'photoid');
+                newElement.style.border = '2px solid blue'
+                newElement.style.height = '400px'
+                newElement.style.width = '400px'
+                document.querySelector('#photo').appendChild(newElement);
+                const imgElement = document.createElement('img');
+                imgElement.style.height = '400px'
+                imgElement.style.width = '400px'
+                const imgUrl = data.avatar_url;
+                imgElement.src = imgUrl;
+                document.querySelector('#photoid').appendChild(imgElement)
+                const followerCount = document.createElement('div');
+                followerCount.setAttribute('id', 'followers')
+                followerCount.style.border = '2px solid green'
+                followerCount.style.margin = '20px 0 20px'
+
+                const totalfollowers = data.followers;
+                followerCount.innerText = `My total follower: ${totalfollowers}`
+                followerCount.style.height = '50px'
+                followerCount.style.width = '200px'
+
+                document.querySelector('#photo').appendChild(followerCount);
+
+            })
+
+
+
+
+
+
+
+
+
+        }
+    }
+    xhr.send()
+    // console.log("Here")
+
+
+
+</script>
+
+</html>
