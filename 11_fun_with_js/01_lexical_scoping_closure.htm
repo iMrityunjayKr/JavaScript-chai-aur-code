@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Closure</title>
+</head>
+
+<body style="background-color: #313131;">
+    <button id="orange">Orange</button>
+    <button id="green">Green</button>
+
+</body>
+<script>
+    //Lexical Scoping
+    // function init() {
+    //     let name = "Mozilla";
+    //     function displayName() {
+    //         console.log(name);
+    //     }
+    //     displayName();
+    // }
+    // init();
+    function outer() {
+        let username = "Mrityunjay";
+        function inner() {
+            console.log("inner: ", username);
+        }
+        function innerTwo() {
+            console.log("innerTwo: ", username);
+        }
+        inner()
+        innerTwo()
+    }
+    outer();
+    // console.log(username);
+
+
+</script>
+
+<script>
+    //Closure
+    function makeFunc() {
+        const name = "Closure: Mozilla";
+        function displayName() {
+            console.log(name);
+        }
+        return displayName;
+    }
+
+    const myFunc = makeFunc();
+    myFunc();
+
+    //Real Word example of Closure
+    // document.getElementById('orange').onclick = function(){
+    //     document.body.style.backgroundColor = `orange`
+    // }
+    // document.getElementById('green').onclick = function(){
+    //     document.body.style.backgroundColor = `green`
+    // }
+
+    //Now lets we have 500 buttons, for every button we have to define the function
+
+    function clickHandler(color) {
+        // document.body.style.backgroundColor = `${color}`
+        return function () {
+            document.body.style.backgroundColor = `${color}`
+        }
+    }
+    // document.getElementById('orange').onclick = clickHandler('orange') // this executes the automatically, without even clicking on the button as the onclick was expection a function, but it get a executable function hence we have to provide a fucntion which will be executed after clicking on the button.
+    // document.getElementById('orange').onclick = clickHandler('green')
+    //but we want to change the color when we are clicking on the button
+    document.getElementById('orange').onclick = clickHandler('orange')
+    document.getElementById('green').onclick = clickHandler('green')
+
+
+</script>
+
+</html>
